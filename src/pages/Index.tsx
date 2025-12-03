@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -82,6 +82,45 @@ const Index = () => {
     const element = document.getElementById(section);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const initMap = () => {
+      if (typeof window.ymaps === 'undefined') return;
+
+      window.ymaps.ready(() => {
+        const map = new window.ymaps.Map(mapRef.current!, {
+          center: [55.751574, 37.573856],
+          zoom: 16,
+          controls: ['zoomControl', 'fullscreenControl']
+        });
+
+        const placemark = new window.ymaps.Placemark([55.751574, 37.573856], {
+          balloonContent: '<strong>Дом Культуры</strong><br>г. Москва, ул. Культурная, д. 15'
+        }, {
+          preset: 'islands#redTheaterIcon'
+        });
+
+        map.geoObjects.add(placemark);
+      });
+    };
+
+    if (window.ymaps) {
+      initMap();
+    } else {
+      const checkYmaps = setInterval(() => {
+        if (window.ymaps) {
+          clearInterval(checkYmaps);
+          initMap();
+        }
+      }, 100);
+
+      return () => clearInterval(checkYmaps);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-orange-50">
@@ -449,14 +488,8 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-            <Card className="shadow-xl overflow-hidden animate-scale-in" style={{ animationDelay: '0.2s' }}>
-              <div className="h-full w-full bg-gradient-to-br from-purple-200 to-orange-200 flex items-center justify-center">
-                <div className="text-center p-12">
-                  <Icon name="Map" size={64} className="text-primary mx-auto mb-4" />
-                  <p className="text-xl font-semibold text-gray-700">Интерактивная карта</p>
-                  <p className="text-gray-600 mt-2">Здесь может быть размещена карта</p>
-                </div>
-              </div>
+            <Card className="shadow-xl overflow-hidden animate-scale-in p-0" style={{ animationDelay: '0.2s' }}>
+              <div ref={mapRef} className="h-full w-full min-h-[400px] rounded-lg"></div>
             </Card>
           </div>
         </div>
