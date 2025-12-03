@@ -20,7 +20,7 @@ const Index = () => {
       date: "15 декабря 2025",
       time: "19:00",
       price: "от 500 ₽",
-      category: "Музыка",
+      category: "Концерты",
       image: "https://cdn.poehali.dev/projects/1bbc0589-bdfb-4f99-8a6c-409c1790eb91/files/d32b17fd-1ef1-4d7d-b164-38074085bd8b.jpg"
     },
     {
@@ -29,16 +29,16 @@ const Index = () => {
       date: "20 декабря 2025",
       time: "18:30",
       price: "от 700 ₽",
-      category: "Театр",
+      category: "Спектакли",
       image: "https://cdn.poehali.dev/projects/1bbc0589-bdfb-4f99-8a6c-409c1790eb91/files/d32b17fd-1ef1-4d7d-b164-38074085bd8b.jpg"
     },
     {
       id: 3,
-      title: "Выставка современного искусства",
+      title: "Новогодний праздник для всей семьи",
       date: "22 декабря 2025",
-      time: "10:00",
-      price: "Бесплатно",
-      category: "Выставка",
+      time: "16:00",
+      price: "от 200 ₽",
+      category: "Массовые праздники",
       image: "https://cdn.poehali.dev/projects/1bbc0589-bdfb-4f99-8a6c-409c1790eb91/files/7e4fd3ad-8bd6-426c-a9e7-9cd7af3cd802.jpg"
     },
     {
@@ -158,9 +158,9 @@ const Index = () => {
           <Tabs defaultValue="all" className="w-full" onValueChange={setSelectedCategory}>
             <TabsList className="mb-8 flex justify-center">
               <TabsTrigger value="all">Все</TabsTrigger>
-              <TabsTrigger value="Музыка">Музыка</TabsTrigger>
-              <TabsTrigger value="Театр">Театр</TabsTrigger>
-              <TabsTrigger value="Выставка">Выставки</TabsTrigger>
+              <TabsTrigger value="Концерты">Концерты</TabsTrigger>
+              <TabsTrigger value="Спектакли">Спектакли</TabsTrigger>
+              <TabsTrigger value="Массовые праздники">Массовые праздники</TabsTrigger>
               <TabsTrigger value="Детям">Детям</TabsTrigger>
             </TabsList>
             <TabsContent value={selectedCategory}>
