@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 const Index = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState('home');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const events = [
     {
@@ -154,16 +155,19 @@ const Index = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">Афиша мероприятий</h2>
             <p className="text-xl text-gray-600">Выбирайте то, что вам по душе</p>
           </div>
-          <Tabs defaultValue="all" className="w-full">
+          <Tabs defaultValue="all" className="w-full" onValueChange={setSelectedCategory}>
             <TabsList className="mb-8 flex justify-center">
               <TabsTrigger value="all">Все</TabsTrigger>
-              <TabsTrigger value="music">Музыка</TabsTrigger>
-              <TabsTrigger value="theater">Театр</TabsTrigger>
-              <TabsTrigger value="exhibition">Выставки</TabsTrigger>
+              <TabsTrigger value="Музыка">Музыка</TabsTrigger>
+              <TabsTrigger value="Театр">Театр</TabsTrigger>
+              <TabsTrigger value="Выставка">Выставки</TabsTrigger>
+              <TabsTrigger value="Детям">Детям</TabsTrigger>
             </TabsList>
-            <TabsContent value="all">
+            <TabsContent value={selectedCategory}>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {events.map((event, index) => (
+                {events
+                  .filter(event => selectedCategory === 'all' || event.category === selectedCategory)
+                  .map((event, index) => (
                   <Card key={event.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-scale-in" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="relative h-48 overflow-hidden">
                       <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
