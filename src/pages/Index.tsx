@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Icon from '@/components/ui/icon';
 import { useToast } from "@/hooks/use-toast";
 
@@ -12,6 +13,7 @@ const Index = () => {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState('home');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const events = [
     {
@@ -209,8 +211,9 @@ const Index = () => {
             {gallery.map((image, index) => (
               <div
                 key={index}
-                className="relative overflow-hidden rounded-2xl aspect-square group animate-scale-in"
+                className="relative overflow-hidden rounded-2xl aspect-square group animate-scale-in cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => setSelectedImage(image)}
               >
                 <img
                   src={image}
@@ -223,6 +226,27 @@ const Index = () => {
               </div>
             ))}
           </div>
+
+          <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+            <DialogContent className="max-w-7xl w-full p-0 bg-transparent border-0">
+              <div className="relative">
+                <Button
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full w-12 h-12 p-0"
+                  size="icon"
+                >
+                  <Icon name="X" size={24} />
+                </Button>
+                {selectedImage && (
+                  <img
+                    src={selectedImage}
+                    alt="Увеличенное изображение"
+                    className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+                  />
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
